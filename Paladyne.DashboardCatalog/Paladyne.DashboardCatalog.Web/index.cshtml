@@ -1,0 +1,44 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="http://www.paladyne.com/">Paladyne Systems</a>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            @RenderPage("Views/ViewModePage.cshtml")
+        </div>
+        <hr>
+
+        <footer>
+            <p>© Igor Blinnikov @DateTime.Now.Year</p>
+        </footer>
+    </div>
+
+    @Scripts.Render(
+            "~/bundles/jquery",
+            "~/bundles/jqueryui",
+            "~/bundles/bootstrap",
+            "~/bundles/jsextlibs",
+            "~/Scripts/lib/require.js",
+            "~/bundles/jsapplibs",
+            "~/Scripts/main.js")
+
+
+</body>
+</html>
