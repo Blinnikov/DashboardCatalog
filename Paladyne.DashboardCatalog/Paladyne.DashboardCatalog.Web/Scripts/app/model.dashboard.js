@@ -23,6 +23,20 @@
             if (dc) { _dc = dc; }
             return _dc;
         };
+        
+        // Prototype is available to all instances.
+        // It has access to the properties of the instance of Session.
+        Dashboard.prototype = function () {
+            var dc = Dashboard.datacontext,
+                widgets = function() {
+                    return dc().widgets.getData({ param: { id: this.id() } });
+                };
+
+            return {
+                isNullo: false,
+                widgets: widgets
+            };
+        }();
 
         return Dashboard;
     });

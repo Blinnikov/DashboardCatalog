@@ -1,9 +1,11 @@
 ﻿define('dataservice',
     [
-        'dataservice.dashboard'
+        'dataservice.dashboard',
+        'dataservice.widget'
     ],
-    function (dashboard) {
+    function (dashboard, widget) {
         return {
-            dashboard: dashboard
+            dashboard: dashboard,
+            widget: widget
         };
     });

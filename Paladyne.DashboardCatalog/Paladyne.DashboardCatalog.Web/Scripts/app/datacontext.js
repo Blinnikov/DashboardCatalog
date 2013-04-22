@@ -142,11 +142,13 @@
             //  dataservice's 'get' method
             //  model mapper
             //----------------------------------
-            dashboards = new EntitySet(dataservice.dashboard.getDashboards, modelmapper.dashboard, model.Dashboard.Nullo);
+            dashboards = new EntitySet(dataservice.dashboard.getDashboards, modelmapper.dashboard, model.Dashboard.Nullo),
+            widgets = new EntitySet(dataservice.widget.getWidgets, modelmapper.widget, model.Widget.Nullo);
 
 
         var datacontext = {
-            dashboards: dashboards
+            dashboards: dashboards,
+            widgets: widgets
         };
         
         // We did this so we can access the datacontext during its construction

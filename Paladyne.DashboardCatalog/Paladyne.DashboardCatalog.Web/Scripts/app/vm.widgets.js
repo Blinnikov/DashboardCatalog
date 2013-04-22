@@ -1,34 +1,15 @@
-﻿define('vm.dashboards',
+﻿define('vm.widgets',
     ['jquery', 'underscore', 'ko', 'datacontext', 'router', 'sort', 'event.delegates', 'utils', 'messenger', 'config', 'store'],
     function ($, _, ko, datacontext, router, sort, eventDelegates, utils, messenger, config, store) {
         var
             isRefreshing = false,
             selectedDashboard = ko.observable(),
             dashboards = ko.observableArray(),
-            widgets = ko.observableArray(),
-            columns = ko.observableArray(),
 
             activate = function (routeData, callback) {
                 messenger.publish.viewModelActivated({ canleaveCallback: canLeave });
                 setSelectedDashboard(routeData);
                 getDashboards(callback);
-                var id = selectedDashboard();
-                if (id != -1) {
-                    getWidgets(id);
-                }
-                makeColumns();
-            },
-            
-            makeColumns = function () {
-                var w = widgets();
-                for (var i = 0; i < w.length; i++) {
-                    var array = columns()[w[i].column() - 1];
-                    if (array === undefined) {
-                        columns.push(ko.observableArray());
-                        array = columns()[w[i].column() - 1];
-                    }
-                    array.push(w[i]);
-                }
             },
 
             canLeave = function () {
@@ -58,19 +39,9 @@
                         .always(utils.invokeFunctionIfExists(callback));
                     isRefreshing = false;
                 }
+
             },
-            
-            getWidgets = function (routeData) {
-                if (!widgets().length) {
-                    $.when(
-                        datacontext.widgets.getData({
-                            results: widgets,
-                            param: routeData
-                        }))
-                        .always(makeColumns);
-                }
-            },
-            
+
             setSelectedDashboard = function (data) {
                 var value = data.id || -1;
                 selectedDashboard(value);
