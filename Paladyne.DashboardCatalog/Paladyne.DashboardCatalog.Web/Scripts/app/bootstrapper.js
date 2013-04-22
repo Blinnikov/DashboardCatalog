@@ -1,6 +1,6 @@
 ﻿define('bootstrapper',
-    ['jquery', 'config', 'route-config', 'presenter', 'dataprimer', 'binder'],
-    function ($, config, routeConfig, presenter, dataprimer, binder) {
+    ['jquery', 'config', 'route-config', 'presenter', 'dataprimer', 'binder', 'portletsmaker'],
+    function ($, config, routeConfig, presenter, dataprimer, binder, portletsmaker) {
         var
             run = function () {
                 presenter.toggleActivity(true);
@@ -10,6 +10,7 @@
                 $.when(dataprimer.fetch())
                     .done(binder.bind)
                     .done(routeConfig.register)
+                    //.done(portletsmaker.init)
                     .always(function () {
                         presenter.toggleActivity(false);
                     });

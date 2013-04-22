@@ -142,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiControllerBase.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
+    <Compile Include="Controllers\WidgetsController.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -236,8 +237,10 @@
     <Content Include="Scripts\app\dataprimer.js" />
     <Content Include="Scripts\app\dataservice.dashboard.js" />
     <Content Include="Scripts\app\dataservice.js" />
+    <Content Include="Scripts\app\dataservice.widget.js" />
     <Content Include="Scripts\app\event.delegates.js" />
-    <Content Include="Scripts\app\intenso.js" />
+    <Content Include="Scripts\app\model.widget.js" />
+    <Content Include="Scripts\app\portletsmaker.js" />
     <Content Include="Scripts\app\ko.bindingHandlers.js" />
     <Content Include="Scripts\app\ko.debug.helpers.js" />
     <Content Include="Scripts\app\messenger.js" />
@@ -248,12 +251,12 @@
     <Content Include="Scripts\app\route-config.js" />
     <Content Include="Scripts\app\route-mediator.js" />
     <Content Include="Scripts\app\router.js" />
-    <Content Include="Scripts\app\sort.js" />
     <Content Include="Scripts\app\store.js" />
     <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\app\vm.dashboards.js" />
     <Content Include="Scripts\app\vm.js" />
     <None Include="Scripts\lib\amplify-vsdoc.js" />
+    <Content Include="Scripts\app\vm.widgets.js" />
     <Content Include="Scripts\lib\amplify.js" />
     <Content Include="Scripts\lib\amplify.min.js" />
     <Content Include="Scripts\lib\bootbox.js" />

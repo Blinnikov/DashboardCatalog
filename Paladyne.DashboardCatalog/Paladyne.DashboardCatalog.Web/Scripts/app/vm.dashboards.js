@@ -1,6 +1,6 @@
 ﻿define('vm.dashboards',
-    ['jquery', 'underscore', 'ko', 'datacontext', 'router', 'sort', 'event.delegates', 'utils', 'messenger', 'config', 'store'],
-    function ($, _, ko, datacontext, router, sort, eventDelegates, utils, messenger, config, store) {
+    ['jquery', 'underscore', 'ko', 'datacontext', 'router', 'event.delegates', 'utils', 'messenger', 'config', 'store', 'portletsmaker'],
+    function ($, _, ko, datacontext, router, eventDelegates, utils, messenger, config, store, portletsmaker) {
         var
             isRefreshing = false,
             selectedDashboard = ko.observable(),
@@ -16,10 +16,10 @@
                 if (id != -1) {
                     getWidgets(id);
                 }
-                makeColumns();
             },
             
             makeColumns = function () {
+                columns.removeAll();
                 var w = widgets();
                 for (var i = 0; i < w.length; i++) {
                     var array = columns()[w[i].column() - 1];
@@ -29,6 +29,7 @@
                     }
                     array.push(w[i]);
                 }
+                portletsmaker.init();
             },
 
             canLeave = function () {
@@ -83,6 +84,7 @@
             canLeave: canLeave,
             selectedDashboard: selectedDashboard,
             dashboards: dashboards,
+            columns: columns,
             forceRefreshCmd: forceRefreshCmd
         };
     });
