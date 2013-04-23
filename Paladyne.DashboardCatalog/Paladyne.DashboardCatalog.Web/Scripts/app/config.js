@@ -55,7 +55,7 @@
             configureExternalTemplates = function () {
                 infuser.defaults.templatePrefix = "_";
                 infuser.defaults.templateSuffix = ".tmpl.html";
-                infuser.defaults.templateUrl = "/Tmpl";
+                infuser.defaults.templateUrl = "/Templates";
             },
 
             init = function () {

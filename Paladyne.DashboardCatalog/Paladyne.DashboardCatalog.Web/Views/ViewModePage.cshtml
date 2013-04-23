@@ -1,49 +1,7 @@
 ﻿<div id="view-mode-dashboards" class="view">
-    <div class="span3">
-        <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-                <li class="nav-header">Catalog</li>
-                <!-- ko foreach: dashboards() -->
-                <li data-bind="css: { 'active': id() == $root.selectedDashboard() }">
-                    <a data-bind="attr: { 'href': '#/dashboards/' + id() }">
-                        <span data-bind="text: title"></span>
-                    </a>
-                </li>
-                <!-- /ko -->
-            </ul>
-        </div>
-        <!--/.well -->
-        <div class="row">
-            <div class="span3 offset10">
-                <button class="btn btn-primary"><i class="icon-white icon-plus-sign"></i>Add</button>
-            </div>
-        </div>
-        <div class="row">
-            <div id="busyindicator"></div>
-        </div>
-    </div>
+    <div class="span3" data-bind="template: {name: 'dashboard.catalog'}"></div>
 
-    <div class="span9">
-        <div class="row-fluid" data-bind="foreach: $root.columns()">
-            <div class="span4 column" data-bind="attr: {id: 'col' +  $index()}">
-                
-                <!-- ko foreach: $data -->
-                <div class="box grad_colour_dark_blue" data-bind="attr: {id: 'box_' + $index()}" style="position: relative; opacity: 1; z-index: 0;">
-                    <h2 class="box_head round_top" data-bind="text: title"></h2>
-                    <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
-                    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
-                    <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
-                    <div class="toggle_container">
-                        <div class="block box_content round_bottom">
-                            <div style="padding: 5px 10px;" data-bind="text: content"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /ko -->
-            </div>
-            <!--/span-->
-        </div>
-    </div>
+    <div class="span9" data-bind="template: {name: 'widget.list', data: widgets}"></div>
     
     @*<pre data-bind="text: ko.utils.debugInfo($root)"></pre>*@
 </div>

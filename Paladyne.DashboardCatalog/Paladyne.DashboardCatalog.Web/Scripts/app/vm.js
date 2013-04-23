@@ -1,9 +1,11 @@
 ﻿define('vm',
-[
-        'vm.dashboards'
-],
-    function (dashboards) {
+    [
+        'vm.dashboards',
+        'vm.widgets'
+    ],
+    function(dashboards, widgets) {
         return {
-            dashboards: dashboards
-    };
-});
+            dashboards: dashboards,
+            widgets: widgets
+        };
+    });

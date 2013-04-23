@@ -311,6 +311,8 @@
     <Content Include="Scripts\lib\underscore.js" />
     <Content Include="Scripts\lib\underscore.min.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Templates\_dashboard.catalog.tmpl.html" />
+    <Content Include="Templates\_widget.list.tmpl.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -325,8 +327,6 @@
     </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="index.cshtml" />
-    <Content Include="Views\Widgets.cshtml" />
-    <Content Include="Views\Catalog.cshtml" />
     <Content Include="Scripts\lib\jquery-1.9.1.min.map" />
     <Content Include="Views\ViewModePage.cshtml" />
   </ItemGroup>

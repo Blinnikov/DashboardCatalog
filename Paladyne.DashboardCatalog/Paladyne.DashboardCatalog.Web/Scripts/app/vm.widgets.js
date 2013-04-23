@@ -1,59 +1,69 @@
 ﻿define('vm.widgets',
-    ['jquery', 'underscore', 'ko', 'datacontext', 'router', 'sort', 'event.delegates', 'utils', 'messenger', 'config', 'store'],
-    function ($, _, ko, datacontext, router, sort, eventDelegates, utils, messenger, config, store) {
+    ['ko', 'datacontext', 'router', 'portletsmaker'],
+    function (ko, datacontext, router, portletsmaker) {
         var
-            isRefreshing = false,
-            selectedDashboard = ko.observable(),
-            dashboards = ko.observableArray(),
-
-            activate = function (routeData, callback) {
-                messenger.publish.viewModelActivated({ canleaveCallback: canLeave });
-                setSelectedDashboard(routeData);
-                getDashboards(callback);
+            widgets = ko.observableArray(),
+            columns = ko.observableArray(),
+            
+            makeColumns = function () {
+                columns.removeAll();
+                var w = widgets();
+                for (var i = 0; i < w.length; i++) {
+                    var array = columns()[w[i].column() - 1];
+                    if (array === undefined) {
+                        columns.push(ko.observableArray());
+                        array = columns()[w[i].column() - 1];
+                    }
+                    array.push(w[i]);
+                }
+                portletsmaker.init();
             },
-
-            canLeave = function () {
-                return true;
+            
+            getWidgets = function (routeData) {
+                $.when(
+                    datacontext.widgets.getData({
+                        forceRefresh: true,
+                        results: widgets,
+                        param: routeData
+                    }))
+                    .always(makeColumns);
             },
+            
+            createWidget = function () {
 
-            dataOptions = function (force) {
-                return {
-                    results: dashboards,
-                    filter: null,
-                    sortFunction: null,
-                    forceRefresh: force
+                var widget = {
+                    id: ko.observable(200),
+                    title: ko.observable('New widget'),
+                    content: ko.observable('Have you ever been hated or discriminated against? Bla bla bla'),
+                    column: ko.observable(1),
+                    order: ko.observable(1),
+                    mode: ko.observable(0),
                 };
-            },
-
-            forceRefreshCmd = ko.asyncCommand({
-                execute: function (complete) {
-                    $.when(datacontext.sessions.getSessionsAndAttendance(dataOptions(true)))
-                        .always(complete);
+                
+                if (columns().length > 0) {
+                    columns()[0].push(widget);
+                    portletsmaker.init();
                 }
-            }),
-
-            getDashboards = function (callback) {
-                if (!isRefreshing) {
-                    isRefreshing = true;
-                    $.when(datacontext.dashboards.getData(dataOptions(false)))
-                        .always(utils.invokeFunctionIfExists(callback));
-                    isRefreshing = false;
-                }
-
             },
+            
+            removeWidget = function (widget, domElement) {
+                if (columns().length > 0) {
 
-            setSelectedDashboard = function (data) {
-                var value = data.id || -1;
-                selectedDashboard(value);
-                // force mutation, so subscribers will be notified (for the nav synch)
-                selectedDashboard.valueHasMutated();
+                    bootbox.confirm("Are you sure?", function(confirmed) {
+                        if (confirmed) {
+                            var column = widget.column() - 1;
+                            var observableColumn = columns()[column];
+                            observableColumn.remove(widget);
+                        }
+                    });
+                }
             };
 
         return {
-            activate: activate,
-            canLeave: canLeave,
-            selectedDashboard: selectedDashboard,
-            dashboards: dashboards,
-            forceRefreshCmd: forceRefreshCmd
+            columns: columns,
+            makeColumns: makeColumns,
+            getWidgets: getWidgets,
+            createWidget: createWidget,
+            removeWidget: removeWidget
         };
     });

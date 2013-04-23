@@ -1,0 +1,26 @@
+﻿<!-- ko if: dashboards().length > 0 -->
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li class="nav-header">Catalog</li>
+        <!-- ko foreach: dashboards() -->
+        <li data-bind="css: { 'active': id() == $root.selectedDashboard() }">
+            <a data-bind="attr: { 'href': '#/dashboards/' + id() }">
+                <span data-bind="text: title"></span>
+            </a>
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+<!-- /ko -->
+<!--/.well -->
+<div class="row">
+    <div class="span5 offset1">
+        <button class="btn btn-primary" data-bind="click: createDashboard">
+            <i class="icon-white icon-plus-sign"></i> Add dashboard
+        </button>
+    </div>
+</div>
+<div class="row-fluid"><i>&nbsp;</i></div>
+<div class="row-fluid">
+    <div id="busyindicator"></div>
+</div>
