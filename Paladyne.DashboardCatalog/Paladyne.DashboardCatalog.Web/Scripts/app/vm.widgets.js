@@ -46,7 +46,7 @@
                 }
             },
             
-            removeWidget = function (widget, domElement) {
+            removeWidget = function (widget) {
                 if (columns().length > 0) {
 
                     bootbox.confirm("Are you sure?", function(confirmed) {
