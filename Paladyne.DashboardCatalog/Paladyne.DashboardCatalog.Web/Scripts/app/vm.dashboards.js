@@ -62,14 +62,13 @@
             },
             
             getWidgets = function (routeData) {
-                if (!widgets().length) {
-                    $.when(
-                        datacontext.widgets.getData({
-                            results: widgets,
-                            param: routeData
-                        }))
-                        .always(makeColumns);
-                }
+                $.when(
+                    datacontext.widgets.getData({
+                        forceRefresh: true,
+                        results: widgets,
+                        param: routeData
+                    }))
+                    .always(makeColumns);
             },
             
             setSelectedDashboard = function (data) {
