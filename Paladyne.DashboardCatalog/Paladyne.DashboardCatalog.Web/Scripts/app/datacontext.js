@@ -1,10 +1,7 @@
 ﻿define('datacontext', 
-    ['jquery', 'underscore', 'ko', 'model', 'model.mapper', 'dataservice', 'config', 'utils'],
-    function ($, _, ko, model, modelmapper, dataservice, config, utils) {
+    ['jquery', 'underscore', 'ko', 'model', 'model.mapper', 'dataservice', 'config', 'utils', 'presenter'],
+    function ($, _, ko, model, modelmapper, dataservice, config, utils, presenter) {
         var logger = config.logger,
-            getCurrentUserId = function() {
-                return config.currentUser().id();
-            },
             itemsToArray = function(items, observableArray, filter, sortFunction) {
                 // Maps the memo to an observableArray, 
                 // then returns the observableArray
@@ -59,7 +56,8 @@
                     getAllLocal = function() {
                         return utils.mapMemoToArray(items);
                     },
-                    getData = function(options) {
+                    getData = function (options) {
+                        presenter.toggleActivity(true);
                         return $.Deferred(function(def) {
                             var results = options && options.results,
                                 sortFunction = options && options.sortFunction,
@@ -88,6 +86,9 @@
                                 itemsToArray(items, results, filter, sortFunction);
                                 def.resolve(results);
                             }
+                            def.always(function() {
+                                presenter.toggleActivity(false);
+                            });
                         }).promise();
                     },
                     updateData = function(entity, callbacks) {

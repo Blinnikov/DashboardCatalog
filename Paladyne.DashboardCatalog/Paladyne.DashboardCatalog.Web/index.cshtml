@@ -10,27 +10,27 @@
 
     @Styles.Render("~/Content/css")
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <a class="brand" href="http://www.paladyne.com/">Paladyne Systems</a>
-                <!--/.nav-collapse -->
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="http://www.paladyne.com/">Paladyne Systems</a>
+                    <!--/.nav-collapse -->
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row-fluid">
-            @RenderPage("Views/ViewModePage.cshtml")
+        <div class="container-fluid">
+            <div class="row-fluid">
+                @RenderPage("Views/ViewModePage.cshtml")
+            </div>
+            <hr>
+
+            <footer>
+                <p>© Igor Blinnikov @DateTime.Now.Year</p>
+            </footer>
         </div>
-        <hr>
 
-        <footer>
-            <p>© Igor Blinnikov @DateTime.Now.Year</p>
-        </footer>
-    </div>
-
-    @Scripts.Render(
+        @Scripts.Render(
             "~/bundles/jquery",
             "~/bundles/jqueryui",
             "~/bundles/bootstrap",
@@ -40,5 +40,5 @@
             "~/Scripts/main.js")
 
 
-</body>
+    </body>
 </html>

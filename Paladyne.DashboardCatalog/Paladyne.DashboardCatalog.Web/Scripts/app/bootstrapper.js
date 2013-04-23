@@ -5,13 +5,12 @@
             run = function () {
                 presenter.toggleActivity(true);
 
-                config.dataserviceInit(); 
-                
+                config.dataserviceInit();
+
                 $.when(dataprimer.fetch())
                     .done(binder.bind)
                     .done(routeConfig.register)
-                    //.done(portletsmaker.init)
-                    .always(function () {
+                    .always(function() {
                         presenter.toggleActivity(false);
                     });
             };
