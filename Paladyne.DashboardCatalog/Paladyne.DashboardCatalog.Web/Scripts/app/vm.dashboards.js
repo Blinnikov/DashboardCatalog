@@ -1,12 +1,10 @@
 ﻿define('vm.dashboards',
-    ['jquery', 'underscore', 'ko', 'datacontext', 'router', 'event.delegates', 'utils', 'messenger', 'config', 'store', 'portletsmaker'],
-    function ($, _, ko, datacontext, router, eventDelegates, utils, messenger, config, store, portletsmaker) {
+    ['ko', 'datacontext', 'utils', 'messenger', 'vm.widgets'],
+    function (ko, datacontext, utils, messenger, vmwidgets) {
         var
             isRefreshing = false,
             selectedDashboard = ko.observable(),
             dashboards = ko.observableArray(),
-            widgets = ko.observableArray(),
-            columns = ko.observableArray(),
 
             activate = function (routeData, callback) {
                 messenger.publish.viewModelActivated({ canleaveCallback: canLeave });
@@ -14,22 +12,8 @@
                 getDashboards(callback);
                 var id = selectedDashboard();
                 if (id != -1) {
-                    getWidgets(id);
+                    vmwidgets.getWidgets(id);
                 }
-            },
-            
-            makeColumns = function () {
-                columns.removeAll();
-                var w = widgets();
-                for (var i = 0; i < w.length; i++) {
-                    var array = columns()[w[i].column() - 1];
-                    if (array === undefined) {
-                        columns.push(ko.observableArray());
-                        array = columns()[w[i].column() - 1];
-                    }
-                    array.push(w[i]);
-                }
-                portletsmaker.init();
             },
 
             canLeave = function () {
@@ -61,14 +45,12 @@
                 }
             },
             
-            getWidgets = function (routeData) {
-                $.when(
-                    datacontext.widgets.getData({
-                        forceRefresh: true,
-                        results: widgets,
-                        param: routeData
-                    }))
-                    .always(makeColumns);
+            createDashboard = function () {
+                dashboards.push({
+                    id: ko.observable(100),
+                    columnsCount: 3,
+                    title: ko.observable('New widget ' + new Date())
+                });
             },
             
             setSelectedDashboard = function (data) {
@@ -83,7 +65,8 @@
             canLeave: canLeave,
             selectedDashboard: selectedDashboard,
             dashboards: dashboards,
-            columns: columns,
+            createDashboard: createDashboard,
+            widgets: vmwidgets,
             forceRefreshCmd: forceRefreshCmd
         };
     });
