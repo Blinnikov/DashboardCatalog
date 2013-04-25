@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
+using System.Net;
+using System.Net.Http;
 using Paladyne.DashboardCatalog.DataAccess.Contracts;
 using Paladyne.DashboardCatalog.Models;
 using Paladyne.DashboardCatalog.Web.Models;
@@ -27,7 +27,7 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
             if (!dashboard.Widgets.Any())
             {
                 return Enumerable
-                    .Range(1, 3)
+                    .Range(1, dashboard.ColumnsCount)
                     .Select(i => new Column
                                      {
                                          ColumnNumber = i,
@@ -45,18 +45,28 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
         }
 
         // POST api/widgets
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(Widget widget)
         {
+            UnitOfWork.Widgets.Add(widget);
+            UnitOfWork.Commit();
+
+            return Request.CreateResponse(HttpStatusCode.Created, widget);
         }
 
-        // PUT api/widgets/5
-        public void Put(int id, [FromBody]string value)
+        // PUT api/widgets
+        public HttpResponseMessage Put(Widget widget)
         {
+            UnitOfWork.Widgets.Update(widget);
+            UnitOfWork.Commit();
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         // DELETE api/widgets/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            UnitOfWork.Widgets.Delete(id);
+            UnitOfWork.Commit();
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
 }
