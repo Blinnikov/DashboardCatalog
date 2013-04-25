@@ -20,12 +20,12 @@
                     for (var index in dto.widgets) {
                         var w = dto.widgets[index];
                         var observableWidget = new model.Widget().id(w.id);
-                        observableWidget.title(dto.title)
-                            .content(dto.content)
-                            .column(dto.column)
-                            .order(dto.order)
-                            .mode(dto.mode);
-                        column.widgets.push(w);
+                        observableWidget.title(w.title)
+                            .content(w.content)
+                            .column(w.column)
+                            .order(w.order)
+                            .mode(w.mode);
+                        column.widgets.push(observableWidget);
                     }
 
                     return column;

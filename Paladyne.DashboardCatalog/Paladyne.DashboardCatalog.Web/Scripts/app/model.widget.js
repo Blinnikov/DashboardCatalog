@@ -11,6 +11,9 @@
                 self.order = ko.observable();
                 self.mode = ko.observable();
                 self.isNullo = false;
+                self.dirtyFlag = new ko.DirtyFlag([
+                    self.title,
+                    self.content]);
                 return self;
             };
 

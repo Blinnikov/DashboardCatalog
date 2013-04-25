@@ -46,6 +46,16 @@
                 }
             },
             
+            editWidget = function(widget) {
+                var mode = widget.mode();
+                if (mode == 0) {
+                    widget.mode(1);
+                }
+                if (mode == 1) {
+                    widget.mode(0);
+                }
+            },
+            
             removeWidget = function (widget) {
                 if (columns().length > 0) {
 
@@ -64,6 +74,7 @@
             makeColumns: makeColumns,
             getWidgets: getWidgets,
             createWidget: createWidget,
+            editWidget: editWidget,
             removeWidget: removeWidget
         };
     });

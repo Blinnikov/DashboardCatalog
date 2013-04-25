@@ -1,26 +1,15 @@
 ﻿<div class="row-fluid" data-bind="foreach: columns">
     <div class="span4 column" data-bind="attr: { id: 'col' + $index() }">
-
         <!-- ko foreach: widgets -->
-        <div class="box grad_colour_dark_blue" data-bind="attr: { id: 'box_' + $index() }" style="position: relative; opacity: 1; z-index: 0;">
-            <h2 class="box_head round_top" data-bind="text: title"></h2>
-            <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
-            <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
-            <a href="#" class="destroy box_button_1" title="close" data-bind="click: function () { return $parents[1].removeWidget($data); }">&nbsp;</a>
-            <div class="toggle_container">
-                <div class="block box_content round_bottom">
-                    <div style="padding: 5px 10px;" data-bind="text: content"></div>
-                </div>
-            </div>
-        </div>
+        <!-- ko template: {name: 'widget.view', if: $data.mode() == 0} --><!-- /ko -->
+        <!-- ko template: {name: 'widget.edit', if: $data.mode() == 1} --><!-- /ko -->
         <!-- /ko -->
     </div>
-    <!--/span-->
 </div>
 <div class="row-fluid">
     <div class="span3">
         <button class="btn btn-primary" data-bind="click: createWidget">
-            <i class="icon-white icon-plus-sign"></i> Add widget
+            <i class="icon-white icon-plus-sign"></i>Add widget
         </button>
     </div>
 </div>
