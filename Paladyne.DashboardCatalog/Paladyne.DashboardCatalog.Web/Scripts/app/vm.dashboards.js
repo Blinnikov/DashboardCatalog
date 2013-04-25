@@ -25,6 +25,8 @@
             },
             
             activateEdit = function (routeData, callback) {
+                newDashboard.title('');
+                newDashboard.columnsCount('');
                 newDashboard.dirtyFlag().reset();
                 activate(routeData, callback, true);
             },

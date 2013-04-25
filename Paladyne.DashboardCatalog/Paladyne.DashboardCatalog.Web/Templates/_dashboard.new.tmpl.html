@@ -2,10 +2,10 @@
     <div>
         <!-- ko with: newDashboard -->
         <input type="text" class="span12" data-bind="value: title" placeholder="Title"/>
-        <input type="number" class="span12" data-bind="value: columnsCount" placeholder="Columns count"/>
+        <input type="number" min="1" max="12" class="span12" data-bind="value: columnsCount" placeholder="Columns count"/>
         <!-- /ko -->
         <div class="offset9 span5">
-            <button class="btn btn-primary" data-bind="command: saveCmd, activity: saveCmd.isExecuting">
+            <button class="btn btn-primary span6" data-bind="command: saveCmd, activity: saveCmd.isExecuting">
                 <i class="icon-white icon-ok"></i> Save
             </button>
         </div>
