@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using Paladyne.DashboardCatalog.DataAccess.Contracts;
 using Paladyne.DashboardCatalog.Models;
+using Paladyne.DashboardCatalog.Web.Models;
 
 namespace Paladyne.DashboardCatalog.Web.Controllers
 {
@@ -15,12 +16,32 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
         }
 
         // GET api/widgets/5
-        public IEnumerable<Widget> GetByDashboardId(int id)
+        public IEnumerable<Column> GetByDashboardId(int id)
         {
-            return UnitOfWork.Widgets.GetByDashboardId(id)
-                .OrderBy(w => w.Column)
-                .ThenBy(w => w.Order)
-                .ToList();
+            var dashboard = UnitOfWork.Dashboards.GetById(id);
+            if (dashboard == null)
+            {
+                return null;
+            }
+
+            if (!dashboard.Widgets.Any())
+            {
+                return Enumerable
+                    .Range(1, 3)
+                    .Select(i => new Column
+                                     {
+                                         ColumnNumber = i,
+                                         Widgets = Enumerable.Empty<Widget>()
+                                     });
+            }
+
+            return dashboard.Widgets
+                .GroupBy(w => w.Column)
+                .Select(g => new Column
+                                 {
+                                     ColumnNumber = g.Key,
+                                     Widgets = g.OrderBy(w => w.Order)
+                                 });
         }
 
         // POST api/widgets

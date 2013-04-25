@@ -1,7 +1,7 @@
-﻿<div class="row-fluid" data-bind="foreach: columns()">
+﻿<div class="row-fluid" data-bind="foreach: columns">
     <div class="span4 column" data-bind="attr: { id: 'col' + $index() }">
 
-        <!-- ko foreach: $data -->
+        <!-- ko foreach: widgets -->
         <div class="box grad_colour_dark_blue" data-bind="attr: { id: 'box_' + $index() }" style="position: relative; opacity: 1; z-index: 0;">
             <h2 class="box_head round_top" data-bind="text: title"></h2>
             <a href="#" class="settings box_button_3" title="config">&nbsp;</a>

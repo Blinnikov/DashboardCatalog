@@ -10,6 +10,18 @@
                     
                     // Dashboards routes
                     {
+                        view: config.viewIds.newdashboard,
+                        routes: [
+                            {
+                                route: config.hashes.dashboards + '/new',
+                                title: 'New dashboard',
+                                callback: vm.dashboards.activateEdit,
+                                group: '.route-left'
+                            }
+                        ]
+                    },
+
+                    {
                         view: config.viewIds.dashboards,
                         routes: [
                             {
@@ -18,7 +30,8 @@
                                 title: 'Dashboards',
                                 callback: vm.dashboards.activate,
                                 group: '.route-top'
-                            }, {
+                            },
+                            {
                                 route: config.hashes.dashboards + '/:id',
                                 title: 'Dashboards',
                                 callback: vm.dashboards.activate,

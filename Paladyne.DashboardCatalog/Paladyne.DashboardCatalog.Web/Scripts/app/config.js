@@ -7,7 +7,7 @@
             //-----------------
 
             hashes = {
-                dashboards: '#/dashboards'
+                dashboards: '#/dashboard'
             },
             logger = toastr, // use toastr for the logger
             messages = {
@@ -23,7 +23,8 @@
             toastrTimeout = 2000,
             
             viewIds = {
-                dashboards: '#view-mode-dashboards'
+                dashboards: '#view-mode-dashboards',
+                newdashboard: '#edit-mode-dashboards',
             },
             
             toasts = {

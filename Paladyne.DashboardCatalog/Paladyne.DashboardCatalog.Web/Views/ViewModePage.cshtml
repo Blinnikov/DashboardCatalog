@@ -1,7 +1,9 @@
 ﻿<div id="view-mode-dashboards" class="view">
     <div class="span3" data-bind="template: {name: 'dashboard.catalog'}"></div>
-
+    
+    <!-- ko if: selectedDashboard() > 0 -->
     <div class="span9" data-bind="template: {name: 'widget.list', data: widgets}"></div>
+    <!-- /ko -->
     
     @*<pre data-bind="text: ko.utils.debugInfo($root)"></pre>*@
 </div>

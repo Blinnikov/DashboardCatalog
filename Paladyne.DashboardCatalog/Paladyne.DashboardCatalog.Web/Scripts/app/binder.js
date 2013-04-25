@@ -6,6 +6,7 @@
 
             bind = function () {
                 ko.applyBindings(vm.dashboards, getView(ids.dashboards));
+                ko.applyBindings(vm.dashboards, getView(ids.newdashboard));
             },
             
             getView = function (viewName) {

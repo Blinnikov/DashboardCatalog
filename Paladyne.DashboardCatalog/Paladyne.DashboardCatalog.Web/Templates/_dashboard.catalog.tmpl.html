@@ -4,7 +4,7 @@
         <li class="nav-header">Catalog</li>
         <!-- ko foreach: dashboards() -->
         <li data-bind="css: { 'active': id() == $root.selectedDashboard() }">
-            <a data-bind="attr: { 'href': '#/dashboards/' + id() }">
+            <a data-bind="attr: { 'href': '#/dashboard/' + id() }">
                 <span data-bind="text: title"></span>
             </a>
         </li>
@@ -13,14 +13,18 @@
 </div>
 <!-- /ko -->
 <!--/.well -->
+<!-- ko if: !editMode() -->
 <div class="row">
+
     <div class="span5 offset1">
         <button class="btn btn-primary" data-bind="click: createDashboard">
             <i class="icon-white icon-plus-sign"></i> Add dashboard
         </button>
     </div>
+
 </div>
-<div class="row-fluid"><i>&nbsp;</i></div>
+<!-- /ko -->
+<div class="row"><i>&nbsp;</i></div>
 <div class="row-fluid">
     <div id="busyindicator"></div>
 </div>

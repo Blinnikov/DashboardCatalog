@@ -56,7 +56,7 @@
                     getAllLocal = function() {
                         return utils.mapMemoToArray(items);
                     },
-                    getData = function (options) {
+                    getData = function(options) {
                         presenter.toggleActivity(true);
                         return $.Deferred(function(def) {
                             var results = options && options.results,
@@ -145,6 +145,40 @@
             //----------------------------------
             dashboards = new EntitySet(dataservice.dashboard.getDashboards, modelmapper.dashboard, model.Dashboard.Nullo),
             widgets = new EntitySet(dataservice.widget.getWidgets, modelmapper.widget, model.Widget.Nullo);
+
+        dashboards.addData = function(dashboardModel, callbacks) {
+            var dashboardModelJson = ko.toJSON(dashboardModel);
+
+            return $.Deferred(function(def) {
+                dataservice.dashboard.addDashboard({
+                    success: function(dto) {
+                        if (!dto) {
+                            logger.error(config.toasts.errorSavingData);
+                            if (callbacks && callbacks.error) {
+                                callbacks.error();
+                            }
+                            def.reject();
+                            return;
+                        }
+                        var newDashboard = modelmapper.dashboard.fromDto(dto); // Map DTO to Model
+                        dashboards.add(newDashboard); // Add to the datacontext
+                        logger.success(config.toasts.savedData);
+                        if (callbacks && callbacks.success) {
+                            callbacks.success(newDashboard);
+                        }
+                        def.resolve(dto);
+                    },
+                    error: function(response) {
+                        logger.error(config.toasts.errorSavingData);
+                        if (callbacks && callbacks.error) {
+                            callbacks.error();
+                        }
+                        def.reject(response);
+                        return;
+                    }
+                }, dashboardModelJson);
+            }).promise();
+        };
 
 
         var datacontext = {

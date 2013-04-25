@@ -1,12 +1,20 @@
 ﻿define('vm.dashboards',
-    ['ko', 'datacontext', 'utils', 'messenger', 'vm.widgets'],
-    function (ko, datacontext, utils, messenger, vmwidgets) {
+    ['ko', 'datacontext', 'utils', 'messenger', 'vm.widgets', 'model', 'router', 'config'],
+    function (ko, datacontext, utils, messenger, vmwidgets, model, router, config) {
         var
             isRefreshing = false,
             selectedDashboard = ko.observable(),
             dashboards = ko.observableArray(),
+            newDashboard = new model.Dashboard(),
+            editMode = ko.observable(false),
+            
+            // Knockout Computeds
+            isDirty = ko.computed(function () {
+                return newDashboard.dirtyFlag().isDirty() && newDashboard.columnsCount() > 0;
+            }),
 
-            activate = function (routeData, callback) {
+            activate = function (routeData, callback, mode) {
+                editMode(!!mode);
                 messenger.publish.viewModelActivated({ canleaveCallback: canLeave });
                 setSelectedDashboard(routeData);
                 getDashboards(callback);
@@ -14,6 +22,11 @@
                 if (id != -1) {
                     vmwidgets.getWidgets(id);
                 }
+            },
+            
+            activateEdit = function (routeData, callback) {
+                newDashboard.dirtyFlag().reset();
+                activate(routeData, callback, true);
             },
 
             canLeave = function () {
@@ -46,11 +59,7 @@
             },
             
             createDashboard = function () {
-                dashboards.push({
-                    id: ko.observable(100),
-                    columnsCount: 3,
-                    title: ko.observable('New widget ' + new Date())
-                });
+                router.navigateTo(config.hashes.dashboards + '/new');
             },
             
             setSelectedDashboard = function (data) {
@@ -58,15 +67,36 @@
                 selectedDashboard(value);
                 // force mutation, so subscribers will be notified (for the nav synch)
                 selectedDashboard.valueHasMutated();
-            };
+            },
+            
+           saveCmd = ko.asyncCommand({
+               execute: function(complete) {
+                   $.when(datacontext.dashboards.addData(
+                       newDashboard,
+                       {
+                           success: function(dashboard) {
+                               router.navigateTo(config.hashes.dashboards + '/' + dashboard.id());
+                           }
+                       }))
+                       .always(complete);
+               },
+               canExecute: function(isExecuting) {
+                   return !isExecuting && isDirty();
+               }
+           });
 
         return {
             activate: activate,
+            activateEdit: activateEdit,
             canLeave: canLeave,
+            isDirty: isDirty,
             selectedDashboard: selectedDashboard,
             dashboards: dashboards,
+            editMode: editMode,
             createDashboard: createDashboard,
             widgets: vmwidgets,
-            forceRefreshCmd: forceRefreshCmd
+            newDashboard: newDashboard,
+            forceRefreshCmd: forceRefreshCmd,
+            saveCmd: saveCmd
         };
     });

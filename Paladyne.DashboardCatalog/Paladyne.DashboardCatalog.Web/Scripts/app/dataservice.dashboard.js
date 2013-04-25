@@ -9,6 +9,13 @@
                     dataType: 'json',
                     type: 'GET'
                 });
+                
+                amplify.request.define('dashboardAdd', 'ajax', {
+                    url: '/api/dashboards',
+                    dataType: 'json',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8'
+                });
 
             },
             
@@ -18,11 +25,21 @@
                     success: callbacks.success,
                     error: callbacks.error
                 });
+            },
+            
+            addDashboard = function(callbacks, data) {
+                return amplify.request({
+                    resourceId: 'dashboardAdd',
+                    data: data,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
             };
 
         init();
 
         return {
-            getDashboards: getDashboards
+            getDashboards: getDashboards,
+            addDashboard: addDashboard
         };
     });

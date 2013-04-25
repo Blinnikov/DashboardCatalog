@@ -10,13 +10,16 @@
             self.title = ko.observable();
             self.columnsCount = ko.observable();
             self.isNullo = false;
+            self.dirtyFlag = new ko.DirtyFlag([
+                self.title,
+                self.columnsCount]);
             return self;
         };
 
         Dashboard.Nullo = new Dashboard()
             .id(0)
-            .title('Empty dashboard')
-            .columnsCount(0);
+            .title('')
+            .columnsCount('');
         Dashboard.Nullo.isNullo = true;
         
         Dashboard.datacontext = function (dc) {

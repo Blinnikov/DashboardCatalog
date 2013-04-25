@@ -147,6 +147,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Column.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +313,7 @@
     <Content Include="Scripts\lib\underscore.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Templates\_dashboard.catalog.tmpl.html" />
+    <Content Include="Templates\_dashboard.new.tmpl.html" />
     <Content Include="Templates\_widget.list.tmpl.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -329,10 +331,9 @@
     <Content Include="index.cshtml" />
     <Content Include="Scripts\lib\jquery-1.9.1.min.map" />
     <Content Include="Views\ViewModePage.cshtml" />
+    <Content Include="Views\EditModePage.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
