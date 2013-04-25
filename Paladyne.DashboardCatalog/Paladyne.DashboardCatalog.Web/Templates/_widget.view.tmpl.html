@@ -1,7 +1,7 @@
 ﻿<div class="box grad_colour_dark_blue" data-bind="attr: { id: 'box_' + $index() }" style="position: relative; opacity: 1; z-index: 0;">
     <h2 class="box_head round_top" data-bind="text: title"></h2>
     <a href="#" class="settings box_button_3" title="config" data-bind="click: function () { return $parents[1].editWidget($data); }">&nbsp;</a>
-    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+    <a href="#" class="toggle box_button_2" title="toggle" data-bind="click: function () { return $parents[1].toggleWidget($element); }">&nbsp;</a>
     <a href="#" class="destroy box_button_1" title="close" data-bind="click: function () { return $parents[1].removeWidget($data); }">&nbsp;</a>
     <div class="toggle_container">
         <div class="block box_content round_bottom">

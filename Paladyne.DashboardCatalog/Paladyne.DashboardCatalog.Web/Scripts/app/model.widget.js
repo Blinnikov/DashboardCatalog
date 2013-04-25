@@ -7,6 +7,7 @@
                 self.id = ko.observable();
                 self.title = ko.observable();
                 self.content = ko.observable();
+                self.dashboardId = ko.observable();
                 self.column = ko.observable();
                 self.order = ko.observable();
                 self.mode = ko.observable();
@@ -21,6 +22,7 @@
             .id(0)
             .title('Empty widget')
             .content('')
+            .dashboardId(0)
             .column(0)
             .order(0)
             .mode(0);

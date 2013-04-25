@@ -3,9 +3,9 @@
     <div class="toggle_container">
         <div class="block box_content round_bottom" style="padding: 15px;">
             <input type="text" data-bind="value: title" placeholder="Title" class="span12" required />
-            <textarea data-bind="text: content" rows="10" class="span12" required></textarea>
+            <textarea data-bind="value: content" rows="10" class="span12" required></textarea>
             <div class="row-fluid">
-                <button class="btn btn-primary offset9 span3" data-bind="click: function () { return $parents[1].editWidget($data); }">
+                <button class="btn btn-primary" data-bind="click: function () { return $parents[1].editWidget($data); }">
                 <i class="icon-white icon-ok"></i>&nbsp;Save
             </button>
             </div>

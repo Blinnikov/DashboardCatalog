@@ -12,27 +12,42 @@
                 }
             },
             widget = {
+                getDtoId: function (dto) { return dto.id; },
+                fromDto: function (dto, item) {
+                    item = item || new model.Widget().id(dto.id);
+                    item.title(dto.title)
+                        .content(dto.content)
+                        .dashboardId(dto.dashboardId)
+                        .column(dto.column)
+                        .order(dto.order)
+                        .mode(dto.mode);
+                    return item;
+                }
+            },
+            column = {
                 getDtoId: function (dto) { return dto.columnNumber; },
-                fromDto: function (dto, column) {
+                fromDto: function (dto, item) {
 
-                    column = column || {};
-                    column.widgets = ko.observableArray();
+                    item = item || {};
+                    item.widgets = ko.observableArray();
                     for (var index in dto.widgets) {
                         var w = dto.widgets[index];
                         var observableWidget = new model.Widget().id(w.id);
                         observableWidget.title(w.title)
                             .content(w.content)
+                            .dashboardId(w.dashboardId)
                             .column(w.column)
                             .order(w.order)
                             .mode(w.mode);
-                        column.widgets.push(observableWidget);
+                        item.widgets.push(observableWidget);
                     }
 
-                    return column;
+                    return item;
                 }
             };
 
         return {
+            column: column,
             dashboard: dashboard,
             widget: widget
         };

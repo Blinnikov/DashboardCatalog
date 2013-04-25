@@ -44,13 +44,6 @@
                 };
             },
 
-            forceRefreshCmd = ko.asyncCommand({
-                execute: function (complete) {
-                    $.when(datacontext.sessions.getSessionsAndAttendance(dataOptions(true)))
-                        .always(complete);
-                }
-            }),
-
             getDashboards = function (callback) {
                 if (!isRefreshing) {
                     isRefreshing = true;
@@ -98,7 +91,6 @@
             createDashboard: createDashboard,
             widgets: vmwidgets,
             newDashboard: newDashboard,
-            forceRefreshCmd: forceRefreshCmd,
             saveCmd: saveCmd
         };
     });

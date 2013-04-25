@@ -116,6 +116,7 @@
                                 },
                                 error: function(response) {
                                     logger.error(config.toasts.errorSavingData);
+                                    logger.error(response);
                                     if (callbacks && callbacks.error) {
                                         callbacks.error();
                                     }
@@ -144,7 +145,7 @@
             //  model mapper
             //----------------------------------
             dashboards = new EntitySet(dataservice.dashboard.getDashboards, modelmapper.dashboard, model.Dashboard.Nullo),
-            widgets = new EntitySet(dataservice.widget.getWidgets, modelmapper.widget, model.Widget.Nullo);
+            widgets = new EntitySet(dataservice.widget.getWidgets, modelmapper.column, model.Widget.Nullo, dataservice.widget.updateWidget);
 
         dashboards.addData = function(dashboardModel, callbacks) {
             var dashboardModelJson = ko.toJSON(dashboardModel);
@@ -179,7 +180,59 @@
                 }, dashboardModelJson);
             }).promise();
         };
+        
+        widgets.addData = function (widgetModel, callbacks) {
+            var widgetModelJson = ko.toJSON(widgetModel);
 
+            return $.Deferred(function (def) {
+                dataservice.widget.addWidget({
+                    success: function (dto) {
+                        if (!dto) {
+                            logger.error(config.toasts.errorSavingData);
+                            if (callbacks && callbacks.error) {
+                                callbacks.error();
+                            }
+                            def.reject();
+                            return;
+                        }
+                        var newWidget = modelmapper.widget.fromDto(dto); // Map DTO to Model
+                        widgets.add(newWidget); // Add to the datacontext
+                        logger.success(config.toasts.savedData);
+                        if (callbacks && callbacks.success) {
+                            callbacks.success(newDashboard);
+                        }
+                        def.resolve(dto);
+                    },
+                    error: function (response) {
+                        logger.error(config.toasts.errorSavingData);
+                        if (callbacks && callbacks.error) {
+                            callbacks.error();
+                        }
+                        def.reject(response);
+                        return;
+                    }
+                }, widgetModelJson);
+            }).promise();
+        };
+        
+        widgets.deleteData = function (widgetModel, callbacks) {
+            return $.Deferred(function (def) {
+                dataservice.widget.deleteWidget({
+                    success: function (response) {
+                        widgets.removeById(widgetModel.id());
+                        logger.success(config.toasts.savedData);
+                        if (callbacks && callbacks.success) { callbacks.success(); }
+                        def.resolve(response);
+                    },
+                    error: function (response) {
+                        logger.error(config.toasts.errorSavingData);
+                        if (callbacks && callbacks.error) { callbacks.error(); }
+                        def.reject(response);
+                        return;
+                    }
+                }, widgetModel.id());
+            }).promise();
+        };
 
         var datacontext = {
             dashboards: dashboards,

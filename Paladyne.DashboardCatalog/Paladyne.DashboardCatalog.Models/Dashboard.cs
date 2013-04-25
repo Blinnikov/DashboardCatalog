@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Paladyne.DashboardCatalog.Models
 {
@@ -6,6 +7,7 @@ namespace Paladyne.DashboardCatalog.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Title { get; set; }
 
         public int ColumnsCount { get; set; }

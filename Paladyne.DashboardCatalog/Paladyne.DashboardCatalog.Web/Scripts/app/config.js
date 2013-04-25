@@ -29,8 +29,8 @@
             
             toasts = {
                 changesPending: 'Please save or cancel your changes before leaving the page.',
-                errorSavingData: 'Data could not be saved. Please check the logs.',
-                errorGettingData: 'Could not retrieve data.  Please check the logs.',
+                errorSavingData: 'Data could not be saved. Please check the browser console.',
+                errorGettingData: 'Could not retrieve data.  Please check the browser console.',
                 invalidRoute: 'Cannot navigate. Invalid route',
                 retreivedData: 'Data retrieved successfully',
                 savedData: 'Data saved successfully'

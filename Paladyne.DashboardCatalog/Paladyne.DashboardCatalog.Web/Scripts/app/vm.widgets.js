@@ -1,24 +1,25 @@
 ﻿define('vm.widgets',
-    ['ko', 'datacontext', 'router', 'portletsmaker'],
-    function (ko, datacontext, router, portletsmaker) {
+    ['jquery', 'ko', 'datacontext', 'router', 'portletsmaker'],
+    function ($, ko, datacontext, router, portletsmaker) {
         var
             columns = ko.observableArray(),
+            currentDashboardId = ko.observable(),
             
+            columnClass = ko.computed(function () {
+                var span = 12 / columns().length;
+                return 'span' + span + ' column';
+            })
+
             makeColumns = function () {
-                //columns.removeAll();
-                //var w = widgets();
-                //for (var i = 0; i < w.length; i++) {
-                //    var array = columns()[w[i].column() - 1];
-                //    if (array === undefined) {
-                //        columns.push(ko.observableArray());
-                //        array = columns()[w[i].column() - 1];
-                //    }
-                //    array.push(w[i]);
-                //}
-                portletsmaker.init();
+                portletsmaker.setPortlets();
+            },
+
+            refresh = function () {
+                getWidgets(currentDashboardId());
             },
             
             getWidgets = function (routeData) {
+                currentDashboardId(routeData);
                 columns.removeAll();
                 $.when(
                     datacontext.widgets.getData({
@@ -32,21 +33,30 @@
             createWidget = function () {
 
                 var widget = {
-                    id: ko.observable(200),
-                    title: ko.observable('New widget'),
-                    content: ko.observable('Have you ever been hated or discriminated against? Bla bla bla'),
+                    id: ko.observable(),
+                    title: ko.observable(''),
+                    content: ko.observable(''),
                     column: ko.observable(1),
                     order: ko.observable(1),
-                    mode: ko.observable(0),
+                    dashboardId: ko.observable(currentDashboardId),
+                    mode: ko.observable(1),
+                    newWidget: ko.observable(true)
                 };
                 
                 if (columns().length > 0) {
+                    var order = columns()[0].widgets().length + 1;
+                    widget.order(order);
+
+
                     columns()[0].widgets.push(widget);
-                    portletsmaker.init();
+                    portletsmaker.setPortlets();
                 }
             },
             
-            editWidget = function(widget) {
+            editWidget = function (widget) {
+                if (widget.title() == '' || widget.content() == '') {
+                    return;
+                }
                 var mode = widget.mode();
                 if (mode == 0) {
                     widget.mode(1);
@@ -54,6 +64,23 @@
                 if (mode == 1) {
                     widget.mode(0);
                 }
+                var func = widget.newWidget && widget.newWidget()
+                    ? datacontext.widgets.addData
+                    : datacontext.widgets.updateData;
+                $.when(func(widget)).always();
+            },
+            
+            toggleWidget = function (button) {
+                var $button = $(button);
+                $button.toggleClass("toggle_closed").next().next().slideToggle("slow");
+                $button.parent("div").toggleClass("closed_box");
+                $button.siblings(".box_head").toggleClass("round_top").toggleClass("round_all");
+                var closedBoxes = [];
+                var i = 0;
+                $(".closed_box").each(function () {
+                    closedBoxes[i] = $(this).attr("id");
+                    i++;
+                });
             },
             
             removeWidget = function (widget) {
@@ -61,9 +88,13 @@
 
                     bootbox.confirm("Are you sure?", function(confirmed) {
                         if (confirmed) {
-                            var column = widget.column() - 1;
-                            var observableColumn = columns()[column];
-                            observableColumn.remove(widget);
+
+                            $.when(datacontext.widgets.deleteData(widget))
+                                .done(function() {
+                                    var column = widget.column() - 1;
+                                    var observableColumn = columns()[column];
+                                    observableColumn.widgets.remove(widget);
+                                });
                         }
                     });
                 }
@@ -71,10 +102,13 @@
 
         return {
             columns: columns,
+            columnClass: columnClass,
             makeColumns: makeColumns,
             getWidgets: getWidgets,
             createWidget: createWidget,
             editWidget: editWidget,
-            removeWidget: removeWidget
+            refresh: refresh,
+            removeWidget: removeWidget,
+            toggleWidget: toggleWidget
         };
     });

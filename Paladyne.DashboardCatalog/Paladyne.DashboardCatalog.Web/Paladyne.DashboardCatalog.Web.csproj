@@ -144,6 +144,7 @@
     <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\WidgetsController.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Filters\ValidationActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,7 +236,6 @@
     <Content Include="Scripts\app\bootstrapper.js" />
     <Content Include="Scripts\app\config.js" />
     <Content Include="Scripts\app\datacontext.js" />
-    <Content Include="Scripts\app\dataprimer.js" />
     <Content Include="Scripts\app\dataservice.dashboard.js" />
     <Content Include="Scripts\app\dataservice.js" />
     <Content Include="Scripts\app\dataservice.widget.js" />
