@@ -72,10 +72,6 @@ namespace Paladyne.DashboardCatalog.DataAccess.Repositories
         public virtual void Update(T entity)
         {
             DbEntityEntry entityEntry = DbContext.Entry(entity);
-            if (entityEntry.State == EntityState.Detached)
-            {
-                DbSet.Attach(entity);
-            }
             entityEntry.State = EntityState.Modified;
         }
 

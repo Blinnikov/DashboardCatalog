@@ -3,11 +3,12 @@ define(
     ['jquery'],
     function ($) {
 
-        var setPortlets = function() {
-
+        var 
+            setPortlets = function() {
+            
             // Portlets (boxes)
-            $(".column").sortable({
-                connectWith: '.column',
+            $(".widgetcolumn").sortable({
+                connectWith: '.widgetcolumn',
                 items: 'div.box',
                 opacity: 0.8,
                 helper: 'original',
@@ -18,15 +19,13 @@ define(
                 tolerance: 'pointer'
             });
 
-            // Store portlet update (move)
-            $(".column").bind('sortupdate', function() {
-                $('.column').each(function() {
-                });
-            });
-
-        };
+            },
+            destroyPortlets = function() {
+                $(".widgetcolumn").sortable("destroy");
+            };
 
         return {
-            setPortlets: setPortlets
+            setPortlets: setPortlets,
+            destroyPortlets: destroyPortlets
         };
     });

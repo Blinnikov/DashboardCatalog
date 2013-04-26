@@ -1,17 +1,26 @@
 ﻿define('vm.widgets',
-    ['jquery', 'ko', 'datacontext', 'router', 'portletsmaker'],
-    function ($, ko, datacontext, router, portletsmaker) {
+    ['jquery', 'ko', 'datacontext', 'router', 'portletsmaker', 'event.delegates'],
+    function ($, ko, datacontext, router, portletsmaker, eventDelegates) {
         var
             columns = ko.observableArray(),
             currentDashboardId = ko.observable(),
             
             columnClass = ko.computed(function () {
                 var span = 12 / columns().length;
-                return 'span' + span + ' column';
-            })
+                return 'span' + span + ' widgetcolumn';
+            }),
 
             makeColumns = function () {
                 portletsmaker.setPortlets();
+                eventDelegates.widgetColumnUpdate(widgetColumnUpdate, 'sortupdate');
+            },
+            
+            widgetColumnUpdate = function (widget) {
+                columns()[widget.oldColumn - 1].widgets.remove(widget);
+                columns()[widget.column() - 1].widgets.splice(widget.order() - 1, 0, widget);
+
+                widget.updateOther = true;
+                editWidget(widget);
             },
 
             refresh = function () {
@@ -49,7 +58,7 @@
 
 
                     columns()[0].widgets.push(widget);
-                    portletsmaker.setPortlets();
+                    //portletsmaker.setPortlets();
                 }
             },
             
@@ -57,17 +66,25 @@
                 if (widget.title() == '' || widget.content() == '') {
                     return;
                 }
-                var mode = widget.mode();
-                if (mode == 0) {
-                    widget.mode(1);
+                
+                if (!widget.updateOther) {
+                    var mode = widget.mode();
+                    if (mode == 0) {
+                        widget.mode(1);
+                    }
+                    if (mode == 1) {
+                        widget.mode(0);
+                    }
                 }
-                if (mode == 1) {
-                    widget.mode(0);
-                }
+                
                 var func = widget.newWidget && widget.newWidget()
                     ? datacontext.widgets.addData
                     : datacontext.widgets.updateData;
-                $.when(func(widget)).always();
+                $.when(func(widget)).always(
+                    function () {
+                        widget.updateOther = false;
+                        delete widget.newWidget;
+                    });
             },
             
             toggleWidget = function (button) {
