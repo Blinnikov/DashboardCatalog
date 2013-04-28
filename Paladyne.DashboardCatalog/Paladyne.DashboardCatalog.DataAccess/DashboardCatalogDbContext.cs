@@ -8,10 +8,10 @@ namespace Paladyne.DashboardCatalog.DataAccess
 {
     public class DashboardCatalogDbContext : DbContext
     {
-        static DashboardCatalogDbContext()
-        {
-            Database.SetInitializer(new DashboardCatalogDatabaseInitializer());
-        }
+        ////static DashboardCatalogDbContext()
+        ////{
+        ////    Database.SetInitializer(new DashboardCatalogDatabaseInitializer());
+        ////}
 
         public DashboardCatalogDbContext()
             : base(nameOrConnectionString: "DashboardCatalog")
