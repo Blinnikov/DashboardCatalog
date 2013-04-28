@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Paladyne.DashboardCatalog.Models
 {
-    public class Dashboard
+    public class Dashboard : IEntity
     {
         public int Id { get; set; }
 
@@ -12,6 +12,6 @@ namespace Paladyne.DashboardCatalog.Models
 
         public int ColumnsCount { get; set; }
 
-        public ICollection<Widget> Widgets { get; private set; }
+        public ICollection<Widget> Widgets { get; set; }
     }
 }

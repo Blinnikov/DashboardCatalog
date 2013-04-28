@@ -24,24 +24,14 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
                 return null;
             }
 
-            if (!dashboard.Widgets.Any())
-            {
-                return Enumerable
-                    .Range(1, dashboard.ColumnsCount)
-                    .Select(i => new Column
-                                     {
-                                         ColumnNumber = i,
-                                         Widgets = Enumerable.Empty<Widget>()
-                                     });
-            }
-
-            return dashboard.Widgets
-                .GroupBy(w => w.Column)
-                .Select(g => new Column
-                                 {
-                                     ColumnNumber = g.Key,
-                                     Widgets = g.OrderBy(w => w.Order)
-                                 });
+            return Enumerable.Range(1, dashboard.ColumnsCount)
+                .Select(i => new Column
+                {
+                    ColumnNumber = i,
+                    Widgets = dashboard.Widgets
+                        .Where(w => w.Column == i)
+                        .OrderBy(w => w.Order)
+                });
         }
 
         // POST api/widgets
@@ -54,9 +44,33 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
         }
 
         // PUT api/widgets
-        public HttpResponseMessage Put(Widget widget)
+        public HttpResponseMessage Put(WidgetViewModel widgetViewModel)
         {
-            UnitOfWork.Widgets.Update(widget);
+            // If widget was moved to the new column 
+            // we should update indeces of other widgets in both columns
+            if (widgetViewModel.UpdateOther)
+            {
+                var newColumnWidgets = UnitOfWork.Widgets
+                    .GetByDashboardId(widgetViewModel.DashboardId)
+                    .Where(w => w.Column == widgetViewModel.Column && w.Order >= widgetViewModel.Order);
+
+                foreach (var widget in newColumnWidgets)
+                {
+                    widget.Order++;
+                    UnitOfWork.Widgets.Update(widget);
+                }
+
+                var oldColumnWidgets = UnitOfWork.Widgets
+                    .GetByDashboardId(widgetViewModel.DashboardId)
+                    .Where(w => w.Column == widgetViewModel.OldColumn && w.Order >= widgetViewModel.OldOrder);
+
+                foreach (var widget in oldColumnWidgets)
+                {
+                    widget.Order--;
+                    UnitOfWork.Widgets.Update(widget);
+                }
+            }
+            UnitOfWork.Widgets.Update(widgetViewModel.ToDatabaseWidget());
             UnitOfWork.Commit();
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

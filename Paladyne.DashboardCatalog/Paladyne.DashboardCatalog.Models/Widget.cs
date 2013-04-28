@@ -2,7 +2,7 @@
 
 namespace Paladyne.DashboardCatalog.Models
 {
-    public class Widget
+    public class Widget : IEntity
     {
         public int Id { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using Paladyne.DashboardCatalog.Models;
 
 namespace Paladyne.DashboardCatalog.DataAccess.Contracts
 {
@@ -23,7 +24,7 @@ namespace Paladyne.DashboardCatalog.DataAccess.Contracts
         /// Root entity type of the <see cref="IRepository{T}"/>.
         /// </typeparam>
         /// <returns> The repository. </returns>
-        IRepository<T> GetRepositoryForEntityType<T>() where T : class;
+        IRepository<T> GetRepositoryForEntityType<T>() where T : class, IEntity;
 
         /// <summary>
         /// Gets a repository of type T.

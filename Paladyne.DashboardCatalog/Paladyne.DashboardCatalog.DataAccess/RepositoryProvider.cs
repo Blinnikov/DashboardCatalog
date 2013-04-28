@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using Paladyne.DashboardCatalog.DataAccess.Contracts;
+using Paladyne.DashboardCatalog.Models;
 
 namespace Paladyne.DashboardCatalog.DataAccess
 {
@@ -47,7 +48,7 @@ namespace Paladyne.DashboardCatalog.DataAccess
         /// </typeparam>
         /// <returns>
         /// The <see cref="IRepository{T}"/> repository. </returns>
-        public IRepository<T> GetRepositoryForEntityType<T>() where T : class
+        public IRepository<T> GetRepositoryForEntityType<T>() where T : class, IEntity
         {
             return GetRepository<IRepository<T>>(repositoryFactories.GetRepositoryFactoryForEntityType<T>());
         }

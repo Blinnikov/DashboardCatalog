@@ -52,7 +52,7 @@ namespace Paladyne.DashboardCatalog.DataAccess
             DbContext.Configuration.ValidateOnSaveEnabled = false;
         }
 
-        private IRepository<T> GetStandardRepository<T>() where T : class
+        private IRepository<T> GetStandardRepository<T>() where T : class, IEntity
         {
             return RepositoryProvider.GetRepositoryForEntityType<T>();
         }

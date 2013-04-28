@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Paladyne.DashboardCatalog.Models;
 
 namespace Paladyne.DashboardCatalog.DataAccess.Contracts
 {
@@ -6,7 +7,7 @@ namespace Paladyne.DashboardCatalog.DataAccess.Contracts
     /// Generic repository interface.
     /// </summary>
     /// <typeparam name="T">Type of the repository.</typeparam>
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IEntity
     {
         /// <summary>
         /// Gets all items of type T.
