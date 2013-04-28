@@ -74,7 +74,7 @@ namespace Paladyne.DashboardCatalog.DataAccess
         /// <returns>
         /// A factory that creates the <see cref="IRepository{T}"/>, given an EF <see cref="DbContext"/>.
         /// </returns>
-        public Func<DbContext, object> GetRepositoryFactoryForEntityType<T>() where T : class
+        public Func<DbContext, object> GetRepositoryFactoryForEntityType<T>() where T : class, IEntity
         {
             return GetRepositoryFactory<T>() ?? DefaultEntityRepositoryFactory<T>();
         }
@@ -84,7 +84,7 @@ namespace Paladyne.DashboardCatalog.DataAccess
         /// </summary>
         /// <typeparam name="T"> Type of the repository's root entity </typeparam>
         /// <returns> The <see cref="Func"/>. </returns>
-        protected virtual Func<DbContext, object> DefaultEntityRepositoryFactory<T>() where T : class
+        protected virtual Func<DbContext, object> DefaultEntityRepositoryFactory<T>() where T : class, IEntity
         {
             return dbContext => new RepositoryBase<T>(dbContext);
         }

@@ -16,6 +16,13 @@
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8'
                 });
+                
+                amplify.request.define('dashboardDelete', 'ajax', {
+                    url: '/api/dashboards/?id={id}',
+                    dataType: 'json',
+                    type: 'DELETE',
+                    contentType: 'application/json; charset=utf-8'
+                });
 
             },
             
@@ -34,12 +41,22 @@
                     success: callbacks.success,
                     error: callbacks.error
                 });
+            },
+            
+            deleteDashboard = function (callbacks, id) {
+                return amplify.request({
+                    resourceId: 'dashboardDelete',
+                    data: { id: id },
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
             };
 
         init();
 
         return {
             getDashboards: getDashboards,
-            addDashboard: addDashboard
+            addDashboard: addDashboard,
+            deleteDashboard: deleteDashboard
         };
     });

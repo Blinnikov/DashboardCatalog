@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using Paladyne.DashboardCatalog.DataAccess.Contracts;
+using Paladyne.DashboardCatalog.Models;
 
 namespace Paladyne.DashboardCatalog.DataAccess.Repositories
 {
@@ -10,7 +11,7 @@ namespace Paladyne.DashboardCatalog.DataAccess.Repositories
     /// Generic base repository for data access.
     /// </summary>
     /// <typeparam name="T">Type of entity.</typeparam>
-    public class RepositoryBase<T> : IRepository<T> where T : class
+    public class RepositoryBase<T> : IRepository<T> where T : class, IEntity
     {
         public RepositoryBase(DbContext context)
         {
@@ -72,7 +73,21 @@ namespace Paladyne.DashboardCatalog.DataAccess.Repositories
         public virtual void Update(T entity)
         {
             DbEntityEntry entityEntry = DbContext.Entry(entity);
-            entityEntry.State = EntityState.Modified;
+
+            if (entityEntry.State == EntityState.Detached)
+            {
+                T attachedEntity = DbSet.Find(entity.Id);  // You need to have access to key
+
+                if (attachedEntity != null)
+                {
+                    var attachedEntry = DbContext.Entry(attachedEntity);
+                    attachedEntry.CurrentValues.SetValues(entity);
+                }
+                else
+                {
+                    entityEntry.State = EntityState.Modified; // This should attach entity
+                }
+            }
         }
 
         /// <summary>

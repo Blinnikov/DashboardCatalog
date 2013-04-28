@@ -57,6 +57,18 @@
                 router.navigateTo(config.hashes.dashboards + '/new');
             },
             
+            removeDashboard = function() {
+                bootbox.confirm("Do you really want to delete this dashboard?", function (confirmed) {
+                    if (confirmed) {
+
+                        $.when(datacontext.dashboards.deleteData(selectedDashboard()))
+                            .done(function () {
+                                router.navigateTo('#/dashboard');
+                            });
+                    }
+                });
+            },
+            
             setSelectedDashboard = function (data) {
                 var value = data.id || -1;
                 selectedDashboard(value);
@@ -91,6 +103,7 @@
             createDashboard: createDashboard,
             widgets: vmwidgets,
             newDashboard: newDashboard,
+            removeDashboard: removeDashboard,
             saveCmd: saveCmd
         };
     });

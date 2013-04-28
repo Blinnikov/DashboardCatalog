@@ -6,7 +6,7 @@ using Paladyne.DashboardCatalog.Models;
 namespace Paladyne.DashboardCatalog.DataAccess.Initialization
 {
     public class DashboardCatalogDatabaseInitializer
-        : DropCreateDatabaseIfModelChanges<DashboardCatalogDbContext>
+        : DropCreateDatabaseAlways<DashboardCatalogDbContext>
     {
         protected override void Seed(DashboardCatalogDbContext context)
         {

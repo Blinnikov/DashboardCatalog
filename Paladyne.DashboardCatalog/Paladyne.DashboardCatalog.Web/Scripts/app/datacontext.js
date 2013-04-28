@@ -181,6 +181,25 @@
             }).promise();
         };
         
+        dashboards.deleteData = function (dashboardId, callbacks) {
+            return $.Deferred(function (def) {
+                dataservice.dashboard.deleteDashboard({
+                    success: function (response) {
+                        dashboards.removeById(dashboardId);
+                        logger.success(config.toasts.savedData);
+                        if (callbacks && callbacks.success) { callbacks.success(); }
+                        def.resolve(response);
+                    },
+                    error: function (response) {
+                        logger.error(config.toasts.errorSavingData);
+                        if (callbacks && callbacks.error) { callbacks.error(); }
+                        def.reject(response);
+                        return;
+                    }
+                }, dashboardId);
+            }).promise();
+        };
+        
         widgets.addData = function (widgetModel, callbacks) {
             var widgetModelJson = ko.toJSON(widgetModel);
 

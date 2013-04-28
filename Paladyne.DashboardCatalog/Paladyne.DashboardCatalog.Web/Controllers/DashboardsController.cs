@@ -37,8 +37,8 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
 
             var response = Request.CreateResponse(HttpStatusCode.Created, dashboard);
 
-            // Compose location header that tells how to get this session
-            // e.g. ~/api/session/5
+            // Compose location header that tells how to get this dashboard
+            // e.g. ~/api/dashboard/5
             response.Headers.Location =
                 new Uri(Url.Link(WebApiConfig.DefaultRouteName, new { id = dashboard.Id }));
 
@@ -56,8 +56,20 @@ namespace Paladyne.DashboardCatalog.Web.Controllers
         // DELETE api/dashboards/5
         public HttpResponseMessage Delete(int id)
         {
-            UnitOfWork.Dashboards.Delete(id);
-            UnitOfWork.Commit();
+            var dashboard = UnitOfWork.Dashboards.GetById(id);
+
+            if (dashboard != null)
+            {
+                var widgetIds = dashboard.Widgets.Select(w => w.Id);
+                dashboard.Widgets = new List<Widget>();
+                foreach (var widgetId in widgetIds)
+                {
+                    UnitOfWork.Widgets.Delete(widgetId);
+                }
+                UnitOfWork.Dashboards.Delete(dashboard);
+                UnitOfWork.Commit();
+            }
+            
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }

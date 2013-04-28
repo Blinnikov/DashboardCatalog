@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\WidgetConfiguration.cs" />
+    <Compile Include="Configuration\DashboardConfiguration.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\IRepositoryProvider.cs" />
     <Compile Include="Contracts\IUnitOfWork.cs" />

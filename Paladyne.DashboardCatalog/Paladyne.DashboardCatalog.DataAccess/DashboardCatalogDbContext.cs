@@ -8,10 +8,10 @@ namespace Paladyne.DashboardCatalog.DataAccess
 {
     public class DashboardCatalogDbContext : DbContext
     {
-        ////static DashboardCatalogDbContext()
-        ////{
-        ////    // Database.SetInitializer(new DashboardCatalogDatabaseInitializer());
-        ////}
+        static DashboardCatalogDbContext()
+        {
+            Database.SetInitializer(new DashboardCatalogDatabaseInitializer());
+        }
 
         public DashboardCatalogDbContext()
             : base(nameOrConnectionString: "DashboardCatalog")
@@ -25,7 +25,7 @@ namespace Paladyne.DashboardCatalog.DataAccess
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Configurations.Add(new WidgetConfiguration());
+            modelBuilder.Configurations.Add(new DashboardConfiguration());
         }
     }
 }
