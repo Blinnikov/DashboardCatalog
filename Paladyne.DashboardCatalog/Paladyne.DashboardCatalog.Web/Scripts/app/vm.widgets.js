@@ -87,6 +87,13 @@
                     });
             },
             
+            cancelWidget = function (widget) {
+                var obj = widget.dirtyFlag().objectToTrack();
+                widget.title(obj[0]);
+                widget.content(obj[1]);
+                editWidget(widget);
+            },
+            
             toggleWidget = function (button) {
                 var $button = $(button);
                 $button.toggleClass("toggle_closed").next().next().slideToggle("slow");
@@ -118,6 +125,7 @@
             };
 
         return {
+            cancelWidget: cancelWidget,
             columns: columns,
             columnClass: columnClass,
             makeColumns: makeColumns,

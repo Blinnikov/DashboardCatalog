@@ -15,6 +15,9 @@
                 self.dirtyFlag = new ko.DirtyFlag([
                     self.title,
                     self.content]);
+                self.canSave = ko.computed(function() {
+                    return self.dirtyFlag().isDirty() && self.title() != '' && self.content() != '';
+                });
                 return self;
             };
 

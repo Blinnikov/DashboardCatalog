@@ -5,9 +5,20 @@
             <input type="text" data-bind="value: title" placeholder="Title" class="span12" required />
             <textarea data-bind="value: content" rows="10" class="span12" required></textarea>
             <div class="row-fluid">
-                <button class="btn btn-primary" data-bind="click: function () { return $parents[1].editWidget($data); }">
-                <i class="icon-white icon-ok"></i>&nbsp;Save
-            </button>
+                <div class="btn-group">
+                    <button 
+                        class="btn btn-primary" 
+                        data-bind="click: function () { return $parents[1].editWidget($data); }, enable: $data.canSave">
+                        <i class="icon-white icon-ok"></i>&nbsp;Save
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button 
+                        class="btn btn-primary"
+                        data-bind="click: function () { return $parents[1].cancelWidget($data); }">
+                        <i class="icon-white icon-remove-circle"></i>&nbsp;Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>

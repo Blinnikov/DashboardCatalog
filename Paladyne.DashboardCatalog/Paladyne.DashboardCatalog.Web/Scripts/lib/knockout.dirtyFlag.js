@@ -50,6 +50,10 @@
                         _lastCleanState(hashFunction(_objectToTrack));
                         _isInitiallyDirty(false);
                     };
+                    
+                    self.objectToTrack = function () {
+                        return JSON.parse(_lastCleanState());
+                    };
 
                     return self;
                 };

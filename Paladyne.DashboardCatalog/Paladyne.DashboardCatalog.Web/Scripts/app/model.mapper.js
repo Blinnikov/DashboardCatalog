@@ -39,6 +39,7 @@
                             .column(w.column)
                             .order(w.order)
                             .mode(w.mode);
+                        observableWidget.dirtyFlag().reset();
                         item.widgets.push(observableWidget);
                     }
 
